@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import {signup, login} from "@/api/auth"
 
 const AuthContext = createContext(null);
 
@@ -22,48 +23,74 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const signIn = (email, password) => {
-    const storedUsers = JSON.parse(
-      localStorage.getItem("Investment_users") || "[]"
-    );
+  const signIn = async (email, password) => {
+    setIsLoading(true);
 
-    const foundUser = storedUsers.find(
-      (u) => u.email === email && u.password === password
-    );
+    try {
+      console.log({email, password});
+      const response = await login({email, password});
 
-    if (foundUser) {
-      const userData = { name: foundUser.name, email: foundUser.email };
-      setUser(userData);
-      localStorage.setItem("Investment_user", JSON.stringify(userData));
-      return { success: true };
+      if (response.token.trim().length <= 0) {
+        throw new Error("Something went wrong, try again");
+      }
+
+      // Log the user in
+      localStorage.setItem("Helix_user_token", response.token);
+      
+      // Do whatever you want to do with the user data
+      setUser({
+        name: `${response.user.fname} ${response.user.lname}`,
+        email: response.user.email
+      });
+
+      return { success: true, message: response.message };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : error}
+    } finally {
+      setIsLoading(false);
     }
-
-    return { success: false, error: "Invalid email or password" };
   };
 
-  const signUp = (name, email, password) => {
-    const storedUsers = JSON.parse(
-      localStorage.getItem("Investment_users") || "[]"
-    );
+  const signUp = async (name, email, password) => {
+    setIsLoading(true);
+    
+    try {
+      const [fname, lname] = name.split(" ");
+      const response = await signup({
+        fname,
+        lname,
+        email,
+        password
+      });
 
-    const existingUser = storedUsers.find((u) => u.email === email);
-
-    if (existingUser) {
-      return {
-        success: false,
-        error: "An account with this email already exists",
-      };
+      setUser({ name, email });
+      
+      return { success: true, message: response.message };
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : error }
+    } finally {
+      setIsLoading(false);
     }
 
-    const newUser = { name, email, password };
-    storedUsers.push(newUser);
-    localStorage.setItem("Investment_users", JSON.stringify(storedUsers));
+    // const storedUsers = JSON.parse(
+    //   localStorage.getItem("Investment_users") || "[]"
+    // );
 
-    const userData = { name, email };
-    setUser(userData);
-    localStorage.setItem("Investment_user", JSON.stringify(userData));
+    // const existingUser = storedUsers.find((u) => u.email === email);
 
-    return { success: true };
+    // if (existingUser) {
+    //   return {
+    //     success: false,
+    //     error: "An account with this email already exists",
+    //   };
+    // }
+
+    // const newUser = { name, email, password };
+    // storedUsers.push(newUser);
+    // localStorage.setItem("Investment_users", JSON.stringify(storedUsers));
+
+    // const userData = { name, email };
+    // localStorage.setItem("Investment_user", JSON.stringify(userData));
   };
 
   const upgradeAccount = () => {
@@ -74,8 +101,9 @@ export function AuthProvider({ children }) {
   const signOut = () => {
     setUser(null);
     setIsVerified(false);
-    localStorage.removeItem("Investment_user");
-    localStorage.removeItem("verification_badge");
+    localStorage.removeItem("Helix_user_token");
+    // localStorage.removeItem("Investment_user");
+    // localStorage.removeItem("verification_badge");
   };
 
   return (

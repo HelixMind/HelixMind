@@ -28,6 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -63,16 +64,15 @@ export default function SignIn() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      const result = signIn(email, password);
-      setIsLoading(false);
+    const result = await signIn(email, password);
+    setIsLoading(false);
 
-      if (result.success) {
-        navigate("/dashboard");
-      } else {
-        setError(result.error);
-      }
-    }, 500);
+    if (result.success) {
+      toast.success(result.message)
+      setTimeout(() => { navigate("/dashboard"); }, 500)
+    } else {
+      setError(result.error);
+    }
   };
 
   return (

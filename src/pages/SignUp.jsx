@@ -21,6 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import Logo from "../components/ui/Logo";
+import { toast } from "sonner";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -75,17 +76,15 @@ export default function SignUp() {
     }
 
     setIsLoading(true);
+    const result = await signUp(name, email, password);
+    setIsLoading(false);
 
-    setTimeout(() => {
-      const result = signUp(name, email, password);
-      setIsLoading(false);
-
-      if (result.success) {
-        navigate("/dashboard");
-      } else {
-        setError(result.error);
-      }
-    }, 500);
+    if (result.success) {
+      toast.success(result.message)
+      setTimeout(() => { navigate("/dashboard"); }, 500)
+    } else {
+      setError(result.error);
+    }
   };
 
   return (
@@ -188,9 +187,8 @@ export default function SignUp() {
                     {passwordRequirements.map((req, i) => (
                       <div key={i} className="flex items-center gap-2 text-xs">
                         <Check
-                          className={`w-3 h-3 ${
-                            req.met ? "text-success" : "text-muted-foreground"
-                          }`}
+                          className={`w-3 h-3 ${req.met ? "text-success" : "text-muted-foreground"
+                            }`}
                         />
                         <span
                           className={
