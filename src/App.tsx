@@ -24,6 +24,7 @@ import KYCDocument from "@/components/KYCDocument";
 import KYCSelfie from "@/components/KYCSelfie";
 import KYCReview from "@/components/KYCReview";
 import KYCSuccess from "@/components/KYCSuccess";
+import Random from "./pages/Random";
 
 const queryClient = new QueryClient();
 
@@ -37,10 +38,10 @@ const App = () => (
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
+              <Route path="/rand-test" element={<Random />} />
               <Route path="/" element={<Navigate to="/signin" replace />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
-
               <Route
                 path="/dashboard"
                 element={
