@@ -24,8 +24,8 @@ import Logo from '../components/ui/Logo.jsx';
 const navItems = [
   { to: "/overview", label: "Overview", icon: LayoutDashboard },
   { to: "/workspace", label: "Workspace", icon: Briefcase },
-  { to: "/results", label: "Results and Output", icon: PaperclipIcon },
-  { to: "/pilot", label: "Pilot Program", icon: ChartBarIcon },
+  { to: "/results-and-output", label: "Results and Output", icon: PaperclipIcon },
+  { to: "/pilot-program", label: "Pilot Program", icon: ChartBarIcon },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 

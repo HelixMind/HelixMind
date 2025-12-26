@@ -1,30 +1,40 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
+// react-query
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// react-router-dom 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/context/AuthContext";
-import { InvestmentProvider } from "@/context/InvestmentContext";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import DashboardLayout from "@/pages/DashboardLayout";
-import SignIn from "@/pages/SignIn";
-import SignUp from "@/pages/SignUp";
-import Dashboard from "@/pages/Dashboard";
-import Marketplace from "@/pages/Marketplace";
-import IPODetails from "@/pages/IPODetails";
-import MyInvestments from "@/pages/MyInvestments";
-import Account from "@/pages/Account";
-import ScrollToTop from "@/components/ScrollToTop";
-import KYC from "@/pages/KYC";
-import Capital from "@/pages/Capital";
-import CapitalDeposit from "@/pages/CapitalDeposit";
-import CapitalWithdraw from "@/pages/CapitalWithdraw";
-import KYCIntro from "@/components/KYCIntro";
-import KYCDocument from "@/components/KYCDocument";
-import KYCSelfie from "@/components/KYCSelfie";
-import KYCReview from "@/components/KYCReview";
-import KYCSuccess from "@/components/KYCSuccess";
-import Random from "./pages/Random";
+
+// context
+import { AuthProvider } from "@/context/AuthContext.jsx";
+
+// components
+import ScrollToTop from "@/components/ScrollToTop.jsx";
+import ProtectedRoute from "@/components/ProtectedRoute.jsx";
+
+// ui
+import { Toaster } from "@/components/ui/toaster.tsx";
+import { Toaster as Sonner } from "@/components/ui/sonner.tsx";
+import { TooltipProvider } from "@/components/ui/tooltip.tsx";
+
+// pages
+import Random from "./pages/Random.tsx";
+
+  // auth pages
+import SignIn from "@/pages/SignIn.jsx";
+import SignUp from "@/pages/SignUp.jsx";
+
+  // layout page
+import DashboardLayout from "@/pages/DashboardLayout.jsx";
+
+  // 404 page 
+import PageNotFound from "@/pages/PageNotFound.jsx";
+
+  // navTtems pages 
+import Overview from "@/pages/Overview.jsx";
+import Workspace from "@/pages/Workspace.jsx";
+import PilotProgram from "@/pages/PilotProgram.jsx";
+import Settings from "@/pages/Settings.jsx";
+import ResultsAndOutput from "@/pages/ResultsAndOutput.jsx"
 
 const queryClient = new QueryClient();
 
@@ -32,100 +42,110 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
-        <InvestmentProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
               <Route path="/rand-test" element={<Random />} />
-              <Route path="/" element={<Navigate to="/signin" replace />} />
+              <Route path="/" element={<Navigate to="/overview" replace />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
+
+              {/* page not found */}
               <Route
-                path="/dashboard"
+                path="/page-not-found"
                 element={
                   <ProtectedRoute>
                     <DashboardLayout>
-                      <Dashboard />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/marketplace"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <Marketplace />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/Investment/:id"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <IPODetails />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/investments"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <MyInvestments />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/account"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <Account />
+                      <PageNotFound />
                     </DashboardLayout>
                   </ProtectedRoute>
                 }
               />
 
-              {/* Capital routes */}
+              {/* overview */}
               <Route
-                path="/capital"
+                path="/overview"
                 element={
                   <ProtectedRoute>
                     <DashboardLayout>
-                      <Capital />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/capital/deposit"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <CapitalDeposit />
-                    </DashboardLayout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/capital/withdraw"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout>
-                      <CapitalWithdraw />
+                      <Overview />
                     </DashboardLayout>
                   </ProtectedRoute>
                 }
               />
 
+              {/* workspace */}
               <Route
+                path="/workspace"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <Workspace />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* pilot program */}
+              <Route
+                path="/pilot-program"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <PilotProgram />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* settings */}
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <Settings />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* settings */}
+              <Route
+                path="/results-and-output"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout>
+                      <ResultsAndOutput />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+{/* nested routing example */}
+{/*               <Route
+                path="/kyc"
+                element={
+                      <Overview />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+{/* nested routing example */}
+{/*               <Route
+                path="/kyc"
+                element={
+                      <PageNotFound />
+                    </DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+
+{/* nested routing example */}
+{/*               <Route
                 path="/kyc"
                 element={
                   <ProtectedRoute>
@@ -140,12 +160,11 @@ const App = () => (
                 <Route path="selfie" element={<KYCSelfie />} />
                 <Route path="review" element={<KYCReview />} />
                 <Route path="success" element={<KYCSuccess />} />
-              </Route>
+              </Route> */}
 
-              <Route path="*" element={<Navigate to="/signin" replace />} />
+              <Route path="*" element={<Navigate to="/page-not-found" replace />} />
             </Routes>
           </BrowserRouter>
-        </InvestmentProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
