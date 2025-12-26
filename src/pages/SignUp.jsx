@@ -41,7 +41,9 @@ export default function SignUp() {
   const passwordRequirements = [
     { label: "At least 8 characters", met: password.length >= 8 },
     { label: "Contains a number", met: /\d/.test(password) },
+    { label: "Contains a special character", met: /[!@#$%^&*(),.?":{}|<>]/.test(password) },
     { label: "Contains uppercase letter", met: /[A-Z]/.test(password) },
+    { label: "Contains lowercase letter", met: /[a-z]/.test(password) },
   ];
 
   const allRequirementsMet = passwordRequirements.every((r) => r.met);
@@ -88,7 +90,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="max-h-screen bg-background flex">
+    <div className="h-screen bg-background flex">
       {/* Left Panel - Branding */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 border-r border-border">
         <div className="flex items-center gap-3">
