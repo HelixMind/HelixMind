@@ -16,15 +16,19 @@ import {
   ChartBarIcon,
   Menu,
   PanelLeftClose,
-  SettingsIcon
+  SettingsIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils.js";
-import Logo from '../components/ui/Logo.jsx';
+import Logo from "../components/ui/Logo.jsx";
 
 const navItems = [
   { to: "/overview", label: "Overview", icon: LayoutDashboard },
   { to: "/workspace", label: "Workspace", icon: Briefcase },
-  { to: "/results-and-output", label: "Results and Output", icon: PaperclipIcon },
+  {
+    to: "/results-and-output",
+    label: "Results and Output",
+    icon: PaperclipIcon,
+  },
   { to: "/pilot-program", label: "Pilot Program", icon: ChartBarIcon },
   { to: "/settings", label: "Settings", icon: SettingsIcon },
 ];
@@ -97,8 +101,13 @@ export default function DashboardLayout({ children }) {
                 )
               }
             >
-              <item.icon className="w-5 h-5 shrink-0" />
-              <span className="truncate">{!collapsed && item.label}</span>
+              <span  title={item.label} className="flex items-center gap-3">
+                {" "}
+                <item.icon className="w-5 h-5 shrink-0" />
+                <span className="truncate">
+                  {!collapsed && item.label}
+                </span>
+              </span>
             </NavLink>
           ))}
         </nav>
