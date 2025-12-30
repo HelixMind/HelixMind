@@ -19,7 +19,7 @@ const request = async function <T>(
       ...options.headers,
     };
 
-    console.log("Headers: ", headers);
+    // console.log("Headers: ", headers);
 
     const response = await fetch(BASE_URL + endpoint, {
       method: options.method ?? "GET",
@@ -28,7 +28,7 @@ const request = async function <T>(
     });
 
     const output = await response.json();
-    console.log(JSON.stringify(output));
+    // console.log(JSON.stringify(output));
 
     if (response.ok != true) {
       throw new Error(
