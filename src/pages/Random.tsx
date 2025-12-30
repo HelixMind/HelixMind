@@ -12,7 +12,7 @@ const Random = (props: Props) => {
             e.preventDefault();
 
             await myRandomTests();
-        }}/>
+        }}>Test</Button>
     </div>
   )
 }

@@ -63,7 +63,7 @@ async function myRandomTests() {
     // redirect: "follow",
   };
 
-  await fetch("https://lang-master.test/v1/api/login", {
+  await fetch("https://lang-learn-app-app-production.up.railway.app/v1/api/login", {
     ...requestOptions,
     headers: {
       "Content-Type": "application/json",
