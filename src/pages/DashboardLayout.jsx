@@ -10,26 +10,27 @@ import { useLayoutEffect, useRef, useState } from "react";
 // ui
 import {
   LayoutDashboard,
-  Store,
+  PaperclipIcon,
   Briefcase,
-  User,
   LogOut,
-  ArrowDownLeft,
+  ChartBarIcon,
   Menu,
   PanelLeftClose,
-  UserCheck,
-  DollarSign
+  SettingsIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils.js";
-import Logo from '../components/ui/Logo.jsx';
+import Logo from "../components/ui/Logo.jsx";
 
 const navItems = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/marketplace", label: "Marketplace", icon: Store },
-  { to: "/investments", label: "My Investments", icon: Briefcase },
-  { to: "/capital", label: "Capital", icon: DollarSign },
-  { to: "/kyc", label: "KYC Verification", icon: UserCheck },
-  { to: "/account", label: "Account", icon: User },
+  { to: "/overview", label: "Overview", icon: LayoutDashboard },
+  { to: "/workspace", label: "Workspace", icon: Briefcase },
+  {
+    to: "/results-and-output",
+    label: "Results and Output",
+    icon: PaperclipIcon,
+  },
+  { to: "/pilot-program", label: "Pilot Program", icon: ChartBarIcon },
+  { to: "/settings", label: "Settings", icon: SettingsIcon },
 ];
 
 export default function DashboardLayout({ children }) {
@@ -75,9 +76,13 @@ export default function DashboardLayout({ children }) {
             )}
           </button>
 
-          {!collapsed && (
+          {collapsed ? (
             <NavLink to="/dashboard">
-              <Logo className="text-[0.95rem]" />
+              <Logo className="text-[0rem] truncate" />
+            </NavLink>
+          ) : (
+            <NavLink to="/dashboard">
+              <Logo className="text-[0.95rem] truncate" />
             </NavLink>
           )}
         </div>
@@ -96,8 +101,13 @@ export default function DashboardLayout({ children }) {
                 )
               }
             >
-              <item.icon className="w-5 h-5 shrink-0" />
-              <span className="truncate">{!collapsed && item.label}</span>
+              <span  title={item.label} className="flex items-center gap-3">
+                {" "}
+                <item.icon className="w-5 h-5 shrink-0" />
+                <span className="truncate">
+                  {!collapsed && item.label}
+                </span>
+              </span>
             </NavLink>
           ))}
         </nav>
@@ -138,7 +148,7 @@ export default function DashboardLayout({ children }) {
       </aside>
 
       {/* ================= MOBILE HEADER ================= */}
-      <div className="fixed top-0 left-0 right-0 h-16 flex items-center px-4 border-b border-border bg-background z-40 lg:hidden">
+      <div className="fixed top-0 left-0 right-0 h-16 flex gap-0.5 items-center px-4 border-b border-border bg-background z-40 lg:hidden">
         <button
           onClick={() => setMobileOpen(true)}
           className="p-2 rounded-lg hover:bg-sidebar-accent"

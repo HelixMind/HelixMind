@@ -69,7 +69,7 @@ export default function SignIn() {
 
     if (result.success) {
       toast.success(result.message)
-      setTimeout(() => { navigate("/dashboard"); }, 500)
+      setTimeout(() => { navigate("/overview"); }, 500)
     } else {
       setError(result.error);
     }
