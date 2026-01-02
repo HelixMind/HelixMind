@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import {signup, login} from "@/api/auth"
+import {signup, login, checkAuth} from "@/api/auth"
 
 const AuthContext = createContext(null);
 
@@ -9,18 +9,32 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("Investment_user");
-    const storedVerified = localStorage.getItem("verification_badge");
+    (async function() {
+      try {
+        const response = await checkAuth();
+        setUser({
+          name: `${response.fname} ${response.lname}`,
+          email: response.email
+        });
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+        setIsVerified(true);
+      } catch (error) {
+        setUser(null);
+        console.error("Unable to check user state")
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+    // const storedUser = localStorage.getItem("Investment_user");
+    // const storedVerified = localStorage.getItem("verification_badge");
 
-    if (storedVerified === "true") {
-      setIsVerified(true);
-    }
+    // if (storedUser) {
+    //   setUser(JSON.parse(storedUser));
+    // }
 
-    setIsLoading(false);
+    // if (storedVerified === "true") {
+    //   setIsVerified(true);
+    // }
   }, []);
 
   const signIn = async (email, password) => {

@@ -26,7 +26,7 @@ const signup = async function(payload: {
 }
 
 const login = async function(payload: { email: string, password: string}) {
-    const response = await request<{
+    return request<{
         user: any,
         token: string,
         message: string
@@ -40,15 +40,22 @@ const login = async function(payload: { email: string, password: string}) {
             method: "POST"
         }
     );
+}
 
-    return {
-        user: response.user,
-        message: response.message,
-        token: response.token
-    }
+const checkAuth = async function() {
+    return await request<{
+        "fname": string,
+        "lname": string,
+        "email": string,
+        "createdAt": string,
+        "updatedAt": string
+    }>("/me/auth", {
+        method: "GET"
+    });
 }
 
 export {
     signup,
-    login
+    login,
+    checkAuth
 }
